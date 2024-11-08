@@ -1,34 +1,60 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {
+  BrowserRouter as Router, Route, Routes,
+} from 'react-router-dom';
+import AuthProvider from 'react-auth-kit';
+import Session from './components/auth/Session';
+import createStore from 'react-auth-kit/createStore';
+import SignInForm from './components/auth/SignInForm';
+import TestComponent from './components/TestComponent';
+import RequireAuth from '@auth-kit/react-router/RequireAuth'
 import './App.css'
+import './assets/css/variables.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const signInStore = createStore({
+    authName: '_auth',
+    authType: 'cookie',
+    /*cookieDomain: window.location.hostname,
+    cookieSecure: window.location.protocol === 'https:',*/
+  });
+
+  const routes = [
+    {
+      path: '/',
+      element: <Session />,
+      requiresAuth: false,
+    },
+    {
+      path: '/login',
+      element: <SignInForm />,
+      requiresAuth: false,
+    },
+    {
+      path: '/test_component',
+      element: <TestComponent />,
+      requiresAuth: true,
+    }
+  ]
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AuthProvider store={signInStore}>
+      <Router>
+        <Routes>
+          {
+            routes.map((route) => {
+              return (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={
+                    route.requiresAuth ? <RequireAuth fallbackPath={'/login'}>{route.element}</RequireAuth> : route.element
+                  } />
+              )
+            })
+          }
+        </Routes>
+      </Router>
+    </AuthProvider>
   )
 }
 

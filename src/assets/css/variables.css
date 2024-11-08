@@ -1,0 +1,12 @@
+:root {
+  --primary-botton-color: #87DE15;
+  --secondary-botton-color: #4CAF50;
+  --primary-font-color-text: #FFFFFF;
+  --primary-font-color-title: #FF8C00;
+  --secondary-font-color-title: #FFD700;
+
+  --primary-shade-color: #7979FF;
+  --primary-background-color: #2323FF;
+
+  --danger-color: #922D0B;
+}
