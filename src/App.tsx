@@ -1,22 +1,19 @@
 import {
   BrowserRouter as Router, Route, Routes,
 } from 'react-router-dom';
-import AuthProvider from 'react-auth-kit';
+//import AuthProvider from 'react-auth-kit';
 import Session from './components/auth/Session';
-import createStore from 'react-auth-kit/createStore';
+//import createStore from 'react-auth-kit/createStore';
+import AuthProvider from './context/AuthContext';
 import SignInForm from './components/auth/SignInForm';
 import TestComponent from './components/TestComponent';
-import RequireAuth from '@auth-kit/react-router/RequireAuth'
+import ProtectedRoute from './components/ProtectedRoute';
+//import RequireAuth from '@auth-kit/react-router/RequireAuth'
+import { sessionServices } from './services/sessionServices';
 import './App.css'
 import './assets/css/variables.css'
 
 function App() {
-  const signInStore = createStore({
-    authName: '_auth',
-    authType: 'cookie',
-    /*cookieDomain: window.location.hostname,
-    cookieSecure: window.location.protocol === 'https:',*/
-  });
 
   const routes = [
     {
@@ -26,7 +23,7 @@ function App() {
     },
     {
       path: '/login',
-      element: <SignInForm />,
+      element: <SignInForm logIn={sessionServices.logIn} />,
       requiresAuth: false,
     },
     {
@@ -37,25 +34,30 @@ function App() {
   ]
 
   return (
-    <AuthProvider store={signInStore}>
+    <AuthProvider>
       <Router>
         <Routes>
-          {
-            routes.map((route) => {
-              return (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={
-                    route.requiresAuth ? <RequireAuth fallbackPath={'/login'}>{route.element}</RequireAuth> : route.element
-                  } />
-              )
-            })
-          }
+          {routes.map((route) => {
+            return route.requiresAuth ? (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={
+                  <ProtectedRoute element={route.element} />
+                }
+              />
+            ) : (
+              <Route
+                key={route.path}
+                path={route.path}
+                element={route.element}
+              />
+            );
+          })}
         </Routes>
       </Router>
     </AuthProvider>
   )
 }
 
-export default App
+export default App;

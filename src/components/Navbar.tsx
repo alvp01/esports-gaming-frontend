@@ -1,27 +1,19 @@
 import { useState } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.jpg';
-
-type authUser = {
-  userEmail: string;
-  isAdmin: boolean;
-  userId: number;
-}
+import { useAuth } from '../context/AuthContext';
 
 function Navbar(): JSX.Element {
-  const [sidebarVisible, setSidebarVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const isAuthenticated = useIsAuthenticated();
-  const signOut = useSignOut();
-  const auth = useAuthUser<authUser>();
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const { getAuthUser } = useAuth();
+  const authUser = getAuthUser();
+  console.log(authUser);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -33,12 +25,12 @@ function Navbar(): JSX.Element {
 
   const handleLogout = async () => {
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/users/sign_out`, {
+      await axios.delete(`${import.meta.env.VITE_APP_BASE_API_URL}/users/sign_out`, {
         headers: {
           'Content-Type': 'application/json',
         },
       });
-      signOut();
+      //signOut();
       toast.success('Logout Successfully');
 
       navigate('/login');
@@ -59,18 +51,18 @@ function Navbar(): JSX.Element {
         <div className="sidebar-links-container">
           <Link to="/games" className={`nav-link ${location.pathname === '/games' ? 'active' : ''}`} onClick={closeSidebar}>Home Page</Link>
           {
-            auth!.isAdmin
+            authUser!.isAdmin
               ? <Link to="/gameList" className={`nav-link ${location.pathname === '/gameList' ? 'active' : ''}`} onClick={closeSidebar}>Games</Link>
               : null
           }
           {
-            auth!.isAdmin
+            authUser!.isAdmin
               ? <Link to="/addGame" className={`nav-link ${location.pathname === '/addGame' ? 'active' : ''}`} onClick={closeSidebar}>Add Game</Link>
               : null
           }
           <Link to="/reservations" className={`nav-link ${location.pathname === '/reservations' ? 'active' : ''}`} onClick={closeSidebar}>Reservations</Link>
           <button
-            disabled={!isAuthenticated}
+            disabled={!authUser}
             onClick={handleLogout}
             type="button"
             className="list-group-item list-group-item-action"

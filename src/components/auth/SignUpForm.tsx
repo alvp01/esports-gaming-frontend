@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 
-function Register(): JSX.Element {
+function SignUpForm(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
@@ -92,4 +92,4 @@ function Register(): JSX.Element {
   );
 }
 
-export default Register;
+export default SignUpForm;
