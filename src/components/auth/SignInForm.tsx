@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { LoginRequest, LogInFunction } from '../../types/types';
 import { useAuth } from '../../context/AuthContext';
 import { AxiosResponse } from 'axios';
@@ -10,9 +10,9 @@ interface SignInFormProps {
 }
 
 const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
-  const { setTokenCookie, setUserCookie, getAuthUser } = useAuth();
   const navigate = useNavigate();
-  if (getAuthUser()) navigate('/test_component')
+  const { setTokenCookie, setUserCookie, getAuthUser, getAuthToken } = useAuth();
+  if (getAuthUser() && getAuthToken()) return <Navigate to="/test_component" />;
   const signIn = (response: AxiosResponse<LoginResponse>) => {
     setTokenCookie(response.data.token);
     setUserCookie({

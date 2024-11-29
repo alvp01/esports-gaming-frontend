@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+import { useAuth } from '../../context/AuthContext';
 
 function SignUpForm(): JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
   const navigate = useNavigate();
-  const isAuthenticated = useIsAuthenticated();
+  const { getAuthUser, getAuthToken } = useAuth();
+  if (getAuthUser() && getAuthToken()) return <Navigate to="/test_component" />;
 
   const signUpURL = new URL(`${import.meta.env.VITE_APP_BASE_API_URL}/users/sign_up`)
 
@@ -40,10 +41,6 @@ function SignUpForm(): JSX.Element {
       console.error('Registration error:', error);
     }
   };
-
-  if (isAuthenticated) {
-    return <Navigate to="/games" />;
-  }
 
   return (
     <div className="registration-container">

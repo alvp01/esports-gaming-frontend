@@ -13,14 +13,11 @@ interface UserCookie {
 }
 
 interface AuthContextType {
-  cookies: {
-    user?: UserCookie;
-    token?: string;
-  };
   setUserCookie: (params: UserCookie) => void;
   setTokenCookie: (token: string) => void;
   removeCookies: () => void;
   getAuthUser: () => UserCookie | null;
+  getAuthToken: () => string | null;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -30,7 +27,11 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
   const parsedUser = cookies.user ? cookies.user as UserCookie : null;
 
+  const parsedToken = cookies.token ? cookies.token as string : null;
+
   const getAuthUser = () => parsedUser;
+
+  const getAuthToken = () => parsedToken;
 
   const setUserCookie = ({ userId, userEmail, isAdmin }: UserCookie) => {
     setCookie("user", JSON.stringify({ userId, userEmail, isAdmin }));
@@ -52,8 +53,9 @@ const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
       setTokenCookie,
       removeCookies,
       getAuthUser,
+      getAuthToken
     }),
-    [cookies, parsedUser]
+    [cookies]
   );
 
   return (
