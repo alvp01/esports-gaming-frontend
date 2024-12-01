@@ -1,19 +1,18 @@
 import { useState } from 'react';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import axios from 'axios';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import logo from '../assets/logo.jpg';
+import { toast } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { sessionServices } from '../services/sessionServices';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 function Navbar(): JSX.Element {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarVisible, setSidebarVisible] = useState(false);
-  const { getAuthUser } = useAuth();
+  const { getAuthUser, removeCookies } = useAuth();
   const authUser = getAuthUser();
-  console.log(authUser);
 
   const toggleSidebar = () => {
     setSidebarVisible(!sidebarVisible);
@@ -24,19 +23,14 @@ function Navbar(): JSX.Element {
   };
 
   const handleLogout = async () => {
-    try {
-      await axios.delete(`${import.meta.env.VITE_APP_BASE_API_URL}/users/sign_out`, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      //signOut();
+    sessionServices.logOut().then(() => {
       toast.success('Logout Successfully');
-
-      navigate('/login');
-    } catch (err) {
+      removeCookies();
+    }).catch(() => {
       toast.error('Oops! Failed to logout');
-    }
+    }).finally(() => {
+      navigate('/login');
+    })
   };
 
   return (

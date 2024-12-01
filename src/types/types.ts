@@ -18,6 +18,8 @@ export interface LoginResponse {
 
 export type LogInFunction = (body: LoginRequest) => Promise<AxiosResponse<LoginResponse>>;
 
+export type LogOutFunction = () => Promise<AxiosResponse>;
+
 export type authUser = {
   userEmail: string;
   isAdmin: boolean;

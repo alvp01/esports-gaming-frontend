@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
-import { useNavigate, Link, Navigate } from 'react-router-dom';
-import { LoginRequest, LogInFunction } from '../../types/types';
-import { useAuth } from '../../context/AuthContext';
 import { AxiosResponse } from 'axios';
-import { LoginResponse } from '../../types/types';
+import React, { useState } from 'react';
+import { useAuth } from '../../context/AuthContext';
+import {
+  useNavigate,
+  Link,
+  Navigate
+} from 'react-router-dom';
+import {
+  LoginRequest,
+  LogInFunction,
+  LoginResponse
+} from '../../types/types';
 
 interface SignInFormProps {
   logIn: LogInFunction;
@@ -11,7 +18,12 @@ interface SignInFormProps {
 
 const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
   const navigate = useNavigate();
-  const { setTokenCookie, setUserCookie, getAuthUser, getAuthToken } = useAuth();
+  const {
+    setTokenCookie,
+    setUserCookie,
+    getAuthUser,
+    getAuthToken
+  } = useAuth();
   if (getAuthUser() && getAuthToken()) return <Navigate to="/test_component" />;
   const signIn = (response: AxiosResponse<LoginResponse>) => {
     setTokenCookie(response.data.token);
