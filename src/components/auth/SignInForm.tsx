@@ -11,6 +11,7 @@ import {
   LogInFunction,
   LoginResponse
 } from '../../types/types';
+import '../../assets/css/signin.css';
 
 interface SignInFormProps {
   logIn: LogInFunction;
@@ -65,36 +66,36 @@ const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
   if (isError) return <p>{isError}</p>;
 
   return (
-    <main className="body-background">
-      <section className="formcontainer">
-        <h2 className="login-title">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <label htmlFor="emailId">
-            Email:
-            <input
-              type="email"
-              value={email}
-              id="emailId"
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-          <label htmlFor="passwordId">
-            Password:
-            <input
-              type="password"
-              value={password}
-              id="passwordId"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Log In"}
-          </button>
-        </form>
+    <main className="login-container">
+      <h2 className="login-title">Login</h2>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="emailId">
+          Email:
+          <input
+            type="email"
+            value={email}
+            id="emailId"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </label>
+        <label htmlFor="passwordId">
+          Password:
+          <input
+            type="password"
+            value={password}
+            id="passwordId"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </label>
+        <button type="submit" disabled={isLoading}>
+          {isLoading ? "Logging in..." : "Log In"}
+        </button>
+      </form>
+      <section className='text-holder'>
         <p>
           Do not have an account?
-          <Link to="/signup">Sign up here</Link>
         </p>
+        <Link to="/signup">Sign up here</Link>
       </section>
     </main>
   );

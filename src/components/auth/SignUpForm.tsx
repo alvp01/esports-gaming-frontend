@@ -46,49 +46,43 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
   if (isError) return <p>{isError}</p>;
 
   return (
-    <div className="registration-container">
+    <main className="registration-container">
       <h2 className="registration-title">Register</h2>
       <form onSubmit={handleSubmit} className="registration-form">
-        <div>
-          <label htmlFor="emailId">
-            Email:
-            <input
-              type="email"
-              value={userState.email}
-              id="emailId"
-              onChange={(e) => setUserState({ ...userState, email: e.target.value })}
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="passwordId">
-            Password:
-            <input
-              type="password"
-              value={userState.password}
-              id="passwordId"
-              onChange={(e) => setUserState({ ...userState, password: e.target.value })}
-            />
-          </label>
-        </div>
-        <div>
-          <label htmlFor="passwordConfirmationId">
-            Confirm Password:
-            <input
-              type="password"
-              value={userState.passwordConfirmation}
-              id="passwordConfirmationId"
-              onChange={(e) => setUserState({ ...userState, passwordConfirmation: e.target.value })}
-            />
-          </label>
-        </div>
+        <label htmlFor="emailId">
+          Email:
+          <input
+            type="email"
+            value={userState.email}
+            id="emailId"
+            onChange={(e) => setUserState({ ...userState, email: e.target.value })}
+          />
+        </label>
+        <label htmlFor="passwordId">
+          Password:
+          <input
+            type="password"
+            value={userState.password}
+            id="passwordId"
+            onChange={(e) => setUserState({ ...userState, password: e.target.value })}
+          />
+        </label>
+        <label htmlFor="passwordConfirmationId">
+          Confirm Password:
+          <input
+            type="password"
+            value={userState.passwordConfirmation}
+            id="passwordConfirmationId"
+            onChange={(e) => setUserState({ ...userState, passwordConfirmation: e.target.value })}
+          />
+        </label>
         <button type="submit" disabled={isLoading}>Register</button>
       </form>
       <p>
         Already have an account?
         <Link to="/login">Login here</Link>
       </p>
-    </div>
+    </main>
   );
 }
 
