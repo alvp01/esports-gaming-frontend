@@ -22,8 +22,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
 
   if (getAuthUser() && getAuthToken()) return <Navigate to="/test_component" />;
 
-  const signUpURL = new URL(`${import.meta.env.VITE_APP_BASE_API_URL}/users/sign_up`)
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -43,25 +41,6 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
     }).finally(() => {
       setIsLoading(false);
     });
-    /*try {
-      const response = await fetch(signUpURL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          user: {
-            email: userState.email,
-            passowrd: userState.password,
-            passord_confirmation: userState.passwordConfirmation,
-          },
-        }),
-      });
-
-      navigate('/login');
-    } catch (error) {
-      console.error('Registration error:', error);
-    }*/
   };
 
   if (isError) return <p>{isError}</p>;
