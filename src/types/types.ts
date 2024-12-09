@@ -8,6 +8,18 @@ export interface LoginRequest {
   };
 }
 
+export interface SignUpRequest {
+  user: {
+    email: string;
+    password: string;
+    password_confirmation: string;
+  };
+}
+
+export interface SignUpResponse {
+  message: string
+}
+
 // Define the expected response type for login
 export interface LoginResponse {
   token: string;
@@ -19,6 +31,8 @@ export interface LoginResponse {
 export type LogInFunction = (body: LoginRequest) => Promise<AxiosResponse<LoginResponse>>;
 
 export type LogOutFunction = () => Promise<AxiosResponse>;
+
+export type SignUpFunction = (body: SignUpRequest) => Promise<AxiosResponse<SignUpResponse>>
 
 export type authUser = {
   userEmail: string;

@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import esportsApiClient from "../api/esportsApiClient";
-import { LoginRequest, LoginResponse } from "../types/types";
+import { LoginRequest, LoginResponse, SignUpRequest, SignUpResponse } from "../types/types";
 
 const logIn = async (body: LoginRequest): Promise<AxiosResponse<LoginResponse>> => {
   const response = await esportsApiClient.post<LoginResponse>('/users/sign_in', body);
@@ -12,7 +12,13 @@ const logOut = async () => {
   return response;
 }
 
+const signUp = async (body: SignUpRequest): Promise<AxiosResponse<SignUpResponse>> => {
+  const response = await esportsApiClient.post<SignUpResponse>('/users', body);
+  return response;
+}
+
 export const sessionServices = {
   logIn,
-  logOut
+  logOut,
+  signUp
 }

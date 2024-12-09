@@ -1,13 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { SignUpFunction } from '../../types/types';
 
-function SignUpForm(): JSX.Element {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordConfirmation, setPasswordConfirmation] = useState('');
+interface SignUpFormProps {
+  signUp: SignUpFunction;
+}
+
+const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
+  const [userState, setUserState] = useState({
+    email: '',
+    password: '',
+    passwordConfirmation: '',
+  });
+  const [isError, setIsError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+
   const navigate = useNavigate();
   const { getAuthUser, getAuthToken } = useAuth();
+
   if (getAuthUser() && getAuthToken()) return <Navigate to="/test_component" />;
 
   const signUpURL = new URL(`${import.meta.env.VITE_APP_BASE_API_URL}/users/sign_up`)
@@ -15,11 +27,23 @@ function SignUpForm(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    if (password !== passwordConfirmation) {
-      return;
-    }
+    setIsLoading(true);
 
-    try {
+    signUp({
+      user: {
+        email: userState.email,
+        password: userState.password,
+        password_confirmation: userState.passwordConfirmation
+      }
+    }).then((response) => {
+      console.log(response);
+      navigate('/login');
+    }).catch((error) => {
+      setIsError(error.message || "An error occurred");
+    }).finally(() => {
+      setIsLoading(false);
+    });
+    /*try {
       const response = await fetch(signUpURL, {
         method: 'POST',
         headers: {
@@ -27,20 +51,20 @@ function SignUpForm(): JSX.Element {
         },
         body: JSON.stringify({
           user: {
-            email,
-            password,
-            password_confirmation: passwordConfirmation,
+            email: userState.email,
+            passowrd: userState.password,
+            passord_confirmation: userState.passwordConfirmation,
           },
         }),
       });
 
-      if (response.ok) {
-        navigate('/login');
-      }
+      navigate('/login');
     } catch (error) {
       console.error('Registration error:', error);
-    }
+    }*/
   };
+
+  if (isError) return <p>{isError}</p>;
 
   return (
     <div className="registration-container">
@@ -51,9 +75,9 @@ function SignUpForm(): JSX.Element {
             Email:
             <input
               type="email"
-              value={email}
+              value={userState.email}
               id="emailId"
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => setUserState({ ...userState, email: e.target.value })}
             />
           </label>
         </div>
@@ -62,9 +86,9 @@ function SignUpForm(): JSX.Element {
             Password:
             <input
               type="password"
-              value={password}
+              value={userState.password}
               id="passwordId"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => setUserState({ ...userState, password: e.target.value })}
             />
           </label>
         </div>
@@ -73,13 +97,13 @@ function SignUpForm(): JSX.Element {
             Confirm Password:
             <input
               type="password"
-              value={passwordConfirmation}
+              value={userState.passwordConfirmation}
               id="passwordConfirmationId"
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              onChange={(e) => setUserState({ ...userState, passwordConfirmation: e.target.value })}
             />
           </label>
         </div>
-        <button type="submit">Register</button>
+        <button type="submit" disabled={isLoading}>Register</button>
       </form>
       <p>
         Already have an account?
