@@ -93,7 +93,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
         </form>
         <p>
           Do not have an account?
-          <Link to="/register">Sign up here</Link>
+          <Link to="/signup">Sign up here</Link>
         </p>
       </section>
     </main>

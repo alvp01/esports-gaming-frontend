@@ -12,7 +12,7 @@ function Session(): JSX.Element {
         </figure>
         <nav className="session-btns">
           <Link to="/login" className="session_btn">Log in</Link>
-          <Link to="/register" className="session_btn">Sign Up</Link>
+          <Link to="/signup" className="session_btn">Sign Up</Link>
         </nav>
       </section>
     </main>
