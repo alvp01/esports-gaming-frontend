@@ -6,8 +6,8 @@ interface ProtectedRouteProps {
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }): JSX.Element => {
-  const { cookies } = useAuth();
-  return cookies.user && cookies.token ? element : <Navigate to="/login" />;
+  const { getAuthToken, getAuthUser } = useAuth();
+  return getAuthToken() && getAuthUser() ? element : <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
