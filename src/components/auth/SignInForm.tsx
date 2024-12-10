@@ -11,7 +11,7 @@ import {
   LogInFunction,
   LoginResponse
 } from '../../types/types';
-import '../../assets/css/signin.css';
+import styles from './Signin.module.css'
 
 interface SignInFormProps {
   logIn: LogInFunction;
@@ -66,8 +66,8 @@ const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
   if (isError) return <p>{isError}</p>;
 
   return (
-    <main className="login-container">
-      <h2 className="login-title">Login</h2>
+    <main className={styles['login-container']}>
+      <h2 className={styles['login-title']}>Login</h2>
       <form onSubmit={handleSubmit}>
         <label htmlFor="emailId">
           Email:
@@ -91,7 +91,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ logIn }) => {
           {isLoading ? "Logging in..." : "Log In"}
         </button>
       </form>
-      <section className='text-holder'>
+      <section className={styles['text-holder']}>
         <p>
           Do not have an account?
         </p>
