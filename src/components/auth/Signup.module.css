@@ -1,0 +1,64 @@
+.registration-container {
+  width: 500px;
+  height: 300px;
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.signup-title {
+  color: var(--primary-font-color-title)
+}
+
+.registration-container>form {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.registration-container label {
+  display: flex;
+  margin: 10px 0;
+  text-align: left;
+  font-weight: bold;
+  flex-direction: column;
+  color: var(--secondary-font-color-title);
+}
+
+.registration-container label>input {
+  margin-top: 5px;
+  border-radius: 5px;
+  background-color: black;
+  color: var(--primary-font-color-text);
+}
+
+.registration-container form>button {
+  font-weight: bold;
+  color: var(--primary-font-color-text);
+  background-color: var(--primary-botton-color);
+}
+
+.registration-container>p {
+  font-weight: bold;
+  align-self: flex-start;
+  color: var(--primary-font-color-text);
+}
+
+.text-holder {
+  padding: 0 10px;
+  width: 100%;
+  display: flex;
+  font-weight: bold;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--primary-font-color-text);
+}
+
+.text-holder>a {
+  color: var(--secondary-font-color-title);
+}
+
+.text-holder>a:visited {
+  color: var(--primary-font-color-title)
+}

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { SignUpFunction } from '../../types/types';
+import styles from './Signup.module.css'
 
 interface SignUpFormProps {
   signUp: SignUpFunction;
@@ -46,9 +47,9 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
   if (isError) return <p>{isError}</p>;
 
   return (
-    <main className="registration-container">
-      <h2 className="registration-title">Register</h2>
-      <form onSubmit={handleSubmit} className="registration-form">
+    <main className={styles['registration-container']}>
+      <h2 className={styles['signup-title']}>Register</h2>
+      <form onSubmit={handleSubmit}>
         <label htmlFor="emailId">
           Email:
           <input
@@ -78,10 +79,12 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ signUp }) => {
         </label>
         <button type="submit" disabled={isLoading}>Register</button>
       </form>
-      <p>
-        Already have an account?
-        <Link to="/login">Login here</Link>
-      </p>
+      <section className={styles['text-holder']}>
+        <p>
+          Do you have an account?
+        </p>
+        <Link to="/login">Sign in here</Link>
+      </section>
     </main>
   );
 }
