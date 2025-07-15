@@ -1,14 +1,12 @@
-import Navbar from "./Navbar";
 import { useAuth } from "../context/AuthContext";
 
 function TestComponent(): JSX.Element {
   const { getAuthUser } = useAuth();
   console.log(getAuthUser());
   return (
-    <div>
-      <Navbar />
+    <section>
       <h1>LoggedIn</h1>
-    </div>
+    </section>
   );
 }
 

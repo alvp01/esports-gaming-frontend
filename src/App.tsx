@@ -7,6 +7,7 @@ import SignInForm from './components/auth/SignInForm';
 import SignUpForm from './components/auth/SignUpForm';
 import TestComponent from './components/TestComponent';
 import ProtectedRoute from './components/ProtectedRoute';
+import Layout from './components/Layout';
 import { sessionServices } from './services/sessionServices';
 import './App.css'
 import './assets/css/variables.css'
@@ -33,6 +34,7 @@ function App() {
       path: '/test_component',
       element: <TestComponent />,
       requiresAuth: true,
+      layout: Layout,
     }
   ]
 
@@ -46,7 +48,7 @@ function App() {
                 key={route.path}
                 path={route.path}
                 element={
-                  <ProtectedRoute element={route.element} />
+                  <ProtectedRoute element={route.element} layout={route.layout} />
                 }
               />
             ) : (

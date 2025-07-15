@@ -2,9 +2,7 @@ import { useState } from 'react';
 import logo from '../assets/logo.jpg';
 import { toast } from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { sessionServices } from '../services/sessionServices';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 
 function Navbar(): JSX.Element {
@@ -13,10 +11,6 @@ function Navbar(): JSX.Element {
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const { getAuthUser, removeCookies } = useAuth();
   const authUser = getAuthUser();
-
-  const toggleSidebar = () => {
-    setSidebarVisible(!sidebarVisible);
-  };
 
   const closeSidebar = () => {
     setSidebarVisible(false);
@@ -34,10 +28,7 @@ function Navbar(): JSX.Element {
   };
 
   return (
-    <>
-      <div className="mob-nav">
-        <FontAwesomeIcon icon={faBars} className="humburger" onClick={toggleSidebar} />
-      </div>
+    <nav>
       <div className={`side-bar ${sidebarVisible ? 'visible' : ''}`}>
         <div className="sidebar-logo-container">
           <img src={logo} alt="" className="sidebar-logo" />
@@ -68,7 +59,7 @@ function Navbar(): JSX.Element {
           <p className="license">&copy; Esports Gaming Center</p>
         </div>
       </div>
-    </>
+    </nav>
   );
 }
 

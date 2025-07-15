@@ -1,13 +1,20 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { ReactNode } from "react";
 
 interface ProtectedRouteProps {
-  element: JSX.Element;
+  element: ReactNode;
+  layout?: React.ComponentType<{ children?: ReactNode }>;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element }): JSX.Element => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ element, layout: Layout }): JSX.Element => {
   const { getAuthToken, getAuthUser } = useAuth();
-  return getAuthToken() && getAuthUser() ? element : <Navigate to="/login" />;
+
+  if (getAuthToken() && getAuthUser()) {
+    return Layout ? <Layout>{element}</Layout> : <>{element}</>;
+  }
+
+  return <Navigate to="/login" />;
 };
 
 export default ProtectedRoute;
