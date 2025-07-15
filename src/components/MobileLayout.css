@@ -1,0 +1,28 @@
+.mobile-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.mobile-content {
+  padding: 1rem;
+  overflow-y: auto;
+  /* Ensure content area takes up remaining space */
+  grid-row: 2;
+  grid-column: 1;
+}
+
+/* Reset body styles for the layout to work properly */
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  max-width: none;
+}
